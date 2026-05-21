@@ -1,12 +1,14 @@
+
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Register } from './features/auth/register/register';
+// import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  imports: [ Register ],
+  template: `<app-register></app-register>`,
+  styleUrls: ['./app.scss']
 })
 export class App {
-  protected readonly title = signal('frontend');
+  // protected readonly title = signal('frontend');
 }
