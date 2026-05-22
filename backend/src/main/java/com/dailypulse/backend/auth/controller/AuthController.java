@@ -2,6 +2,7 @@ package com.dailypulse.backend.auth.controller;
 
 
 import com.dailypulse.backend.auth.model.AuthResponse;
+import com.dailypulse.backend.auth.model.LoginRequest;
 import com.dailypulse.backend.auth.model.RegisterRequest;
 import com.dailypulse.backend.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,11 @@ public class AuthController {
     public AuthResponse register( @RequestBody RegisterRequest request ) {
 
         return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public AuthResponse login( @RequestBody LoginRequest request ) {
+
+        return authService.login(request);
     }
 }

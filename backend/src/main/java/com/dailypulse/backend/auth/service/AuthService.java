@@ -2,6 +2,7 @@ package com.dailypulse.backend.auth.service;
 
 
 import com.dailypulse.backend.auth.model.AuthResponse;
+import com.dailypulse.backend.auth.model.LoginRequest;
 import com.dailypulse.backend.auth.model.RegisterRequest;
 import com.dailypulse.backend.auth.security.JwtService;
 import com.dailypulse.backend.user.model.User;
@@ -34,11 +35,33 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token =
-                jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail());
 
-        System.out.println("Token" + token);
+        System.out.println("Token: " + token);
 
+        return new AuthResponse(token);
+    }
+
+    public AuthResponse login (LoginRequest request)
+    {
+        User user = userRepository
+                .findByEmail(request.getEmail())
+                .orElseThrow();
+
+        boolean matches =
+                passwordEncoder.matches(
+                        request.getPassword(),
+                        user.getPassword()
+                );
+
+        if (!matches) {
+            throw new RuntimeException(
+                    "Invalid credentials"
+            );
+        }
+
+        String token = jwtService.generateToken(user.getEmail());
+        System.out.println("Token: " + token);
         return new AuthResponse(token);
     }
 }
