@@ -5,18 +5,32 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    JwtService jwtService;
+    private final JwtService jwtService;
 
-    CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
+
+//    public JwtAuthenticationFilter(
+//            JwtService jwtService,
+//            CustomUserDetailsService userDetailsService
+//    ) {
+//
+//        this.jwtService = jwtService;
+//        this.userDetailsService =
+//                userDetailsService;
+//    }
 
     @Override
     protected void doFilterInternal(
@@ -24,15 +38,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader =
-                request.getHeader("Authorization");
+
+        final String authHeader = request.getHeader("Authorization");
 
         final String jwt;
 
-        final String userEmail;
+        final String userName;
 
-        if (authHeader == null
-                || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null|| !authHeader.startsWith("Bearer ")) {
 
             filterChain.doFilter(
                     request,
@@ -44,30 +57,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);
 
-        userEmail =
-                jwtService.extractUsername(jwt);
+        userName = jwtService.extractUsername(jwt);
 
-        if (userEmail != null
-                &&
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        == null) {
+        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails =
-                    userDetailsService
-                            .loadUserByUsername(
-                                    userEmail
-                            );
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
-            if (jwtService.isTokenValid(
-                    jwt,
-                    userDetails.getUsername()
-            )) {
+            if (jwtService.isTokenValid(jwt,userDetails.getUsername() )) {
 
-                UsernamePasswordAuthenticationToken
-                        authToken =
-                        new UsernamePasswordAuthenticationToken(
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
                                 userDetails.getAuthorities()
