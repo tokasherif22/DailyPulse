@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class Auth {
 private api =
-    'http://localhost:8080/api/auth';
+    'http://localhost:8080/api/';
 
   constructor(
     private http: HttpClient
@@ -15,7 +15,7 @@ private api =
   register(data: any) {
 
     return this.http.post(
-      `${this.api}/register`,
+      `${this.api}auth/register`,
       data
     );
   }
@@ -23,7 +23,7 @@ private api =
   login(data: any) {
 
     return this.http.post(
-      `${this.api}/login`,
+      `${this.api}auth/login`,
       data
     );
   }
@@ -42,5 +42,15 @@ private api =
 
     return localStorage.getItem('token');
   }
+
+  getProtectedData() {
+
+  return this.http.get(
+    `${this.api}test/hello`,
+    {
+      responseType: 'text'
+    }
+  );
+}
 
 }
