@@ -5,7 +5,7 @@ import com.dailypulse.backend.auth.model.AuthResponse;
 import com.dailypulse.backend.auth.model.LoginRequest;
 import com.dailypulse.backend.auth.model.RegisterRequest;
 import com.dailypulse.backend.auth.security.JwtService;
-import com.dailypulse.backend.user.model.User;
+import com.dailypulse.backend.user.dto.model.User;
 import com.dailypulse.backend.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

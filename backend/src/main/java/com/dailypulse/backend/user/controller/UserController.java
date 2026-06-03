@@ -1,7 +1,7 @@
 package com.dailypulse.backend.user.controller;
 
-import com.dailypulse.backend.user.model.User;
-import com.dailypulse.backend.user.model.UserResponse;
+import com.dailypulse.backend.user.dto.model.User;
+import com.dailypulse.backend.user.dto.UserResponse;
 import com.dailypulse.backend.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

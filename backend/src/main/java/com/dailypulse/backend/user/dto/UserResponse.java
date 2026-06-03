@@ -1,4 +1,4 @@
-package com.dailypulse.backend.user.model;
+package com.dailypulse.backend.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

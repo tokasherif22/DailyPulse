@@ -1,4 +1,4 @@
-package com.dailypulse.backend.user.model;
+package com.dailypulse.backend.user.dto.model;
 
 import jakarta.persistence.*;
 import lombok.*;

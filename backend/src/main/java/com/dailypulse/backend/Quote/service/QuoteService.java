@@ -1,0 +1,89 @@
+package com.dailypulse.backend.Quote.service;
+
+import com.dailypulse.backend.Quote.dto.QuoteRequest;
+import com.dailypulse.backend.Quote.dto.QuoteResponse;
+import com.dailypulse.backend.Quote.model.Quote;
+import com.dailypulse.backend.Quote.repo.QuoteRepo;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class QuoteService {
+
+    @Autowired
+    QuoteRepo quoteRepo;
+
+    @Autowired
+    private final ModelMapper modelMapper;
+
+    public List<QuoteResponse> getAll() {
+
+        return quoteRepo
+                .findAll()
+                .stream()
+                .map(q -> new QuoteResponse(
+                        q.getId(),
+                        q.getText(),
+                        q.getCreatedBy(),
+                        q.getCreatedAt()
+                ))
+                .toList();
+    }
+
+    public List<QuoteResponse> getAllMyQuotes(String createdBy) {
+
+        List<Quote> quotes = quoteRepo.findByCreatedBy(createdBy);
+
+        System.out.println("quotes: " + quotes);
+
+        return quotes.stream()
+                .map(quote -> modelMapper.map(quote, QuoteResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<QuoteResponse> getAllTodayQuotes() {
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();         // 2025-06-02 00:00:00
+        LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);    // 2025-06-02 23:59:59
+
+        List<Quote> quotes = quoteRepo.findByCreatedAtBetween(startOfDay, endOfDay);
+
+        return quotes.stream()
+                .map(quote -> modelMapper.map(quote, QuoteResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public QuoteResponse createQuote (
+            QuoteRequest request,
+            String creator
+    ) {
+
+        Quote quote =
+                Quote.builder()
+                        .text(request.getText())
+                        .createdBy(creator)
+                        .createdAt(LocalDateTime.now())
+                        .build();
+
+        quoteRepo.save(quote);
+
+        return new QuoteResponse(
+                quote.getId(),
+                quote.getText(),
+                quote.getCreatedBy(),
+                quote.getCreatedAt()
+        );
+    }
+
+
+
+}
