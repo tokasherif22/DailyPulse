@@ -1,8 +1,16 @@
+
 <form
   [formGroup]="form"
   (ngSubmit)="submit()">
 
+ 
+  <div class="alert-error" *ngIf="errorMessage">
+    <span class="alert-icon">!</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
   <br>
+
 
   <div>
     <input
@@ -23,7 +31,7 @@
   <br>
 
   <button type="submit">
-    Login
+    {{ loading ? 'Signing in...' : 'Login' }}
   </button>
 
 </form>

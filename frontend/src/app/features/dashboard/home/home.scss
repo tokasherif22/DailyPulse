@@ -1,0 +1,58 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.welcome-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-card h1 {
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.welcome-card p {
+  color: #64748b;
+}
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.05);
+
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2563eb;
+}

@@ -1,0 +1,23 @@
+<div class="navbar">
+
+  <div class="user-info">
+
+    <span class="user-name">
+      {{ userService.getUser()?.fullName }}
+    </span>
+
+    <span class="role-badge">
+      {{ userService.getUser()?.role }}
+    </span>
+
+  </div>
+
+  <button
+    class="logout-btn"
+    (click)="logout()">
+
+    Logout
+
+  </button>
+
+</div>

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,13 @@ private api =
     {
       responseType: 'text'
     }
+  );
+}
+
+getCurrentUser() {
+
+  return this.http.get<User>(
+    'http://localhost:8080/api/user/me'
   );
 }
 
