@@ -29,10 +29,11 @@ public class JwtService {
     @Value("${app.jwt.expiration}")
     private long jwtExpiration;
 
-    public String generateToken(String email) {
+    public String generateToken(String email,String role) {
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(System.currentTimeMillis() + jwtExpiration)
@@ -51,6 +52,16 @@ public class JwtService {
         return extractClaim(
                 token,
                 Claims::getSubject
+        );
+    }
+
+    public String extractRole( String token ) {
+        return extractClaim(
+                token,
+                claims -> claims.get(
+                        "role",
+                        String.class
+                )
         );
     }
 

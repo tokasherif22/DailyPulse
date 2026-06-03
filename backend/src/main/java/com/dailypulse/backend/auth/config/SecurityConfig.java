@@ -1,6 +1,7 @@
 package com.dailypulse.backend.auth.config;
 
 import com.dailypulse.backend.auth.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
@@ -53,8 +54,11 @@ public class SecurityConfig {
                         .authenticated()
 
                 )
-
-
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
+                )
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,
