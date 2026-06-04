@@ -7,4 +7,31 @@ export interface Quote {
   createdBy: string;
 
   createdAt: string;
+
+  isAIGenerated: boolean;
+
+  scheduledAt: string;
+
+  topic : [
+
+  //  'MOTIVATION',
+
+  // 'SUCCESS',
+
+  // 'PRODUCTIVITY',
+
+  // 'LEADERSHIP',
+
+  // 'FITNESS',
+
+  // 'MINDSET',
+  //  'DISCIPLINE',
+
+  //   'HAPPINESS',
+
+  //   'GRATITUDE',
+
+  //   'BUSINESS'
+
+];
 }

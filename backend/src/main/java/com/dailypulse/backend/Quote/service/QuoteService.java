@@ -3,6 +3,8 @@ package com.dailypulse.backend.Quote.service;
 import com.dailypulse.backend.Quote.dto.QuoteRequest;
 import com.dailypulse.backend.Quote.dto.QuoteResponse;
 import com.dailypulse.backend.Quote.model.Quote;
+import com.dailypulse.backend.Quote.model.Status;
+import com.dailypulse.backend.Quote.model.Topic;
 import com.dailypulse.backend.Quote.repo.QuoteRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -35,7 +37,10 @@ public class QuoteService {
                         q.getId(),
                         q.getText(),
                         q.getCreatedBy(),
-                        q.getCreatedAt()
+                        q.getCreatedAt(),
+                        q.getTopic(),
+                        q.getStatus(),
+                        q.getIsAIGenerated()
                 ))
                 .toList();
     }
@@ -62,6 +67,15 @@ public class QuoteService {
                 .collect(Collectors.toList());
     }
 
+    public QuoteResponse generateAIQuote(Topic topic){
+        return null;
+    }
+
+    public QuoteResponse resonateQuote(Topic topic,String text){
+        return null;
+    }
+
+//    get status draft or published from frontend
     public QuoteResponse createQuote (
             QuoteRequest request,
             String creator
@@ -72,6 +86,9 @@ public class QuoteService {
                         .text(request.getText())
                         .createdBy(creator)
                         .createdAt(LocalDateTime.now())
+                        .topic(request.getTopic())
+                        .status(request.getStatus())
+                        .isAIGenerated(false)
                         .build();
 
         quoteRepo.save(quote);
@@ -80,7 +97,10 @@ public class QuoteService {
                 quote.getId(),
                 quote.getText(),
                 quote.getCreatedBy(),
-                quote.getCreatedAt()
+                quote.getCreatedAt(),
+                quote.getTopic(),
+                quote.getStatus(),
+                quote.getIsAIGenerated()
         );
     }
 

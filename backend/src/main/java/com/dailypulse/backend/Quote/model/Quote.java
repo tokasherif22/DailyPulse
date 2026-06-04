@@ -3,6 +3,7 @@ package com.dailypulse.backend.Quote.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -32,6 +33,17 @@ public class Quote {
 //    @UpdateTimestamp // saved upon update
     @CreationTimestamp //Default
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private Topic topic ;
+
+    @UpdateTimestamp // saved upon update
+    private LocalDateTime scheduledAt;
+
+    private Boolean isAIGenerated;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 
 }

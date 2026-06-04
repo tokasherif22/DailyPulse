@@ -27,6 +27,17 @@ export class QuotesService {
     );
   }
 
+
+  generateAIQuote(
+    quote: any
+  ) {
+
+    return this.http.post(
+      `${this.api}/generateAIQuote`,
+      quote
+    );
+  }
+
   create(
     quote: any
   ) {

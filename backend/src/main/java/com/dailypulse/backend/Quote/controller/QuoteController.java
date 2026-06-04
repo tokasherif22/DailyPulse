@@ -45,4 +45,21 @@ public class QuoteController {
         );
 
     }
+
+    @PostMapping("/generateAIQuote")
+    public QuoteResponse generateAIQuote(@RequestBody QuoteRequest request){
+        return quoteService.generateAIQuote(request.getTopic());
+    }
+
+//    @PostMapping("/resonateQuote")
+//    public QuoteResponse resonateQuote(@RequestBody QuoteRequest request){
+//        return quoteService.resonateQuote(request.getTopic(),request.getText());
+//    }
+//
+//    @PostMapping("/{id}/scheduleQuote")
+//    public QuoteResponse scheduleQuote (@RequestParam Integer id , @RequestBody QuoteRequest request){
+//        return null;
+//    }
+//
+
 }

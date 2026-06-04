@@ -1,0 +1,56 @@
+.create-container {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+
+  h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 1.5rem;
+    color: var(--color-text-primary);
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+    margin-top: 1rem;
+  }
+
+  select, input, textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .alert-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-background-danger);
+    color: var(--color-text-danger);
+    border: 0.5px solid var(--color-border-danger);
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    font-size: 14px;
+    margin-top: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 1.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+}

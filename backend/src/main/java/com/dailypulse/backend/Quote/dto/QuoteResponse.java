@@ -1,5 +1,7 @@
 package com.dailypulse.backend.Quote.dto;
 
+import com.dailypulse.backend.Quote.model.Status;
+import com.dailypulse.backend.Quote.model.Topic;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +23,8 @@ public class QuoteResponse {
     private String createdBy;
 
     private LocalDateTime createdAt;
+
+    private Topic topic;
+    private Status status;
+    private Boolean isAIGenerated ;
 }

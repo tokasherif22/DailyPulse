@@ -1,0 +1,51 @@
+<!-- <div>
+<select>
+
+  <option
+      *ngFor="let topic of topics">
+
+      {{topic}}
+
+  </option>
+
+</select>
+<button>
+
+ Generate By AI
+
+</button>
+
+</div> -->
+
+<div class="create-container">
+  <h1>Create quote</h1>
+
+  <label>Topic</label>
+  <select [(ngModel)]="quote.topic">
+    <option value="" disabled>Select a topic</option>
+    <option *ngFor="let topic of topics" [value]="topic">
+      {{ topic }}
+    </option>
+  </select>
+
+  <label>Quote</label>
+  <textarea rows="6" [(ngModel)]="quote.text" placeholder="Write your quote..."></textarea>
+
+  <!-- <label>Author</label>
+  <input [(ngModel)]="quote.createdBy" placeholder="e.g. Marcus Aurelius" /> -->
+
+  <div class="alert-error" *ngIf="errorMessage">
+    <span>!</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div class="actions">
+    <button (click)="publish()" [disabled]="loading">
+      {{ loading ? 'Saving...' : 'Publish' }}
+    </button>
+    <button (click)="saveDraft()" [disabled]="loading">
+      {{ loading ? 'Saving...' : 'Save Draft' }}
+    </button>
+    <button (click)="reset()">Clear</button>
+  </div>
+</div>

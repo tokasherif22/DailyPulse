@@ -7,6 +7,7 @@ import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { Profile } from './profile/profile';
 import { QuoteList } from './features/quotes/quote-list/quote-list';
 import { MyQuoteList } from './features/quotes/my-quote-list/my-quote-list';
+import { CreateQuote } from './features/quotes/create-quote/create-quote';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,10 @@ export const routes: Routes = [
     {
       path: 'my-quotes',
       component: MyQuoteList
+    },
+    {
+      path: 'create-quotes',
+      component: CreateQuote
     }
   ]
 }
