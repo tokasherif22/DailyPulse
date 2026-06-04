@@ -7,15 +7,27 @@
     Dashboard
   </a>
 
+  <a routerLink="/quotes"
+     routerLinkActive="active">
+    All Quotes
+  </a>
+
+  <a routerLink="/my-quotes"
+     routerLinkActive="active">
+    My Quotes
+  </a>
+
+  <a routerLink="/create-quotes"
+     routerLinkActive="active">
+    Create Quote
+  </a>
+
   <a routerLink="/profile"
      routerLinkActive="active">
     Profile
   </a>
 
-  <a routerLink="/quotes"
-     routerLinkActive="active">
-    Quotes
-  </a>
+  
 
   <a *ngIf="isAdmin"
      routerLink="/admin"

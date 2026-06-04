@@ -1,0 +1,17 @@
+<div class="quotes-container">
+
+  <div
+    class="quote-card"
+    *ngFor="let quote of quotes">
+
+    <p>
+      "{{ quote.text }}"
+    </p>
+
+    <span>
+      — {{ quote.createdBy }}
+    </span>
+
+  </div>
+
+</div>

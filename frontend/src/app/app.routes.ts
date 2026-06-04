@@ -5,6 +5,8 @@ import { Home } from './features/dashboard/home/home';
 import { authGuard } from './core/guards/auth-guard';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { Profile } from './profile/profile';
+import { QuoteList } from './features/quotes/quote-list/quote-list';
+import { MyQuoteList } from './features/quotes/my-quote-list/my-quote-list';
 
 export const routes: Routes = [
     {
@@ -22,12 +24,6 @@ export const routes: Routes = [
     path: 'login',
     component: Login
   },
-
-  // {
-  //   path: 'dashboard',
-  //   component: Home,
-  //   canActivate: [authGuard]
-  // }
   {
   path: '',
   component: DashboardLayout,
@@ -43,11 +39,14 @@ export const routes: Routes = [
       path: 'profile',
       component: Profile
     },
-
-    // {
-    //   path: 'quotes',
-    //   component: QuotesComponent
-    // }
+    {
+      path: 'quotes',
+      component: QuoteList
+    },
+    {
+      path: 'my-quotes',
+      component: MyQuoteList
+    }
   ]
 }
 ];
