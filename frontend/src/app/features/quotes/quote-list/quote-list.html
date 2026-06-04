@@ -1,4 +1,4 @@
-<div class="quotes-container">
+<!-- <div class="quotes-container">
 
   <div
     class="quote-card"
@@ -14,4 +14,14 @@
 
   </div>
 
+</div> -->
+<div class="section-header">
+      <span class="section-title">All Quotes</span>
+      <span class="badge badge-published">{{ quotes.length }}</span>
+</div>
+<div class="quote-card" *ngFor="let quote of quotes">
+      <div class="quote-content">
+        <p class="quote-text">"{{ quote.text }}"</p>
+        <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
+      </div>
 </div>

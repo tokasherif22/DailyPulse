@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Quote } from '../models/quote';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
@@ -47,4 +48,13 @@ export class QuotesService {
       quote
     );
   }
+
+  publish(
+    id: number
+  ): Observable<Quote> {
+  return this.http.patch<Quote>(
+    `${this.api}/${id}/publish`,
+     {}
+    );
+}
 }

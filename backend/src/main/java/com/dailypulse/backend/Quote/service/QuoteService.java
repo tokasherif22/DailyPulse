@@ -104,6 +104,20 @@ public class QuoteService {
         );
     }
 
+    public QuoteResponse publish (Long id , String email){
+        Quote quote = quoteRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Quote not found"));
+
+        // optional: make sure the user owns this quote
+        if (!quote.getCreatedBy().equals(email)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        quote.setStatus(Status.PUBLISHED);
+        quoteRepo.save(quote);
+        return modelMapper.map(quote, QuoteResponse.class);
+    }
+
 
 
 }

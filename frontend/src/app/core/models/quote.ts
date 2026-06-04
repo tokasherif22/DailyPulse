@@ -12,6 +12,8 @@ export interface Quote {
 
   scheduledAt: string;
 
+  status: 'DRAFT' | 'PUBLISHED';
+
   topic : [
 
   //  'MOTIVATION',

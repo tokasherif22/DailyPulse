@@ -1,4 +1,4 @@
-<div class="quotes-container">
+<!-- <div class="quotes-container">
 
   <div
     class="quote-card"
@@ -13,5 +13,64 @@
     </span>
 
   </div>
+
+</div> -->
+
+<div class="quote-list">
+
+  <!-- stats row -->
+  <div class="stats">
+    <div class="stat-card">
+      <span class="stat-label">Total</span>
+      <span class="stat-value">{{ quotes.length }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Published</span>
+      <span class="stat-value published">{{ publishedQuotes.length }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Drafts</span>
+      <span class="stat-value draft">{{ draftQuotes.length }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading quotes...</div>
+  <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+  <!-- published section -->
+  <ng-container *ngIf="publishedQuotes.length > 0">
+    <div class="section-header">
+      <span class="section-title">Published</span>
+      <span class="badge badge-published">{{ publishedQuotes.length }}</span>
+    </div>
+    <div class="quote-card" *ngFor="let quote of publishedQuotes">
+      <div class="quote-content">
+        <p class="quote-text">"{{ quote.text }}"</p>
+        <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
+      </div>
+      <span class="badge badge-published">Published</span>
+    </div>
+  </ng-container>
+
+  <!-- drafts section -->
+  <ng-container *ngIf="draftQuotes.length > 0">
+    <div class="section-header">
+      <span class="section-title">Drafts</span>
+      <span class="badge badge-draft">{{ draftQuotes.length }}</span>
+    </div>
+    <div class="quote-card" *ngFor="let quote of draftQuotes">
+      <div class="quote-content">
+        <p class="quote-text">"{{ quote.text }}"</p>
+        <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
+      </div>
+      <span class="badge badge-draft">Draft</span>
+      <button 
+        class="btn-publish"
+        (click)="publish(quote.id)"
+        [disabled]="publishingId === quote.id">
+        {{ publishingId === quote.id ? 'Publishing...' : 'Publish' }}
+      </button>
+    </div>
+  </ng-container>
 
 </div>

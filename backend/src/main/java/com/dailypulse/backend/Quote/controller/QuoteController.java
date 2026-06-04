@@ -6,6 +6,7 @@ import com.dailypulse.backend.Quote.dto.QuoteResponse;
 import com.dailypulse.backend.Quote.service.QuoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,12 @@ public class QuoteController {
     @PostMapping("/generateAIQuote")
     public QuoteResponse generateAIQuote(@RequestBody QuoteRequest request){
         return quoteService.generateAIQuote(request.getTopic());
+    }
+
+    @PatchMapping("/{id}/publish")
+    public ResponseEntity<QuoteResponse> publish(@PathVariable Long id, Authentication auth) {
+        QuoteResponse response = quoteService.publish(id, auth.getName());
+        return ResponseEntity.ok(response);
     }
 
 //    @PostMapping("/resonateQuote")

@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  /* Light mode */
+  --color-text-primary: #1a1a1a;      /* main text — near black */
+  --color-text-secondary: #6b7280;    /* muted text — gray */
+  --color-text-tertiary: #9ca3af;     /* hints, placeholders */
+
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f9fafb;
+  --color-background-tertiary: #f3f4f6;
+
+  --color-border-tertiary: rgba(0, 0, 0, 0.12);
+  --color-border-secondary: rgba(0, 0, 0, 0.20);
+
+  /* Semantic colors */
+  --color-text-success: #166534;
+  --color-background-success: #dcfce7;
+
+  --color-text-warning: #92400e;
+  --color-background-warning: #fef3c7;
+
+  --color-text-danger: #991b1b;
+  --color-background-danger: #fee2e2;
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Border radius */
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+}
+
+/* Dark mode — overrides automatically when OS is dark */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #9ca3af;
+    --color-text-tertiary: #6b7280;
+
+    --color-background-primary: #111827;
+    --color-background-secondary: #1f2937;
+    --color-background-tertiary: #374151;
+
+    --color-border-tertiary: rgba(255, 255, 255, 0.10);
+    --color-border-secondary: rgba(255, 255, 255, 0.18);
+
+    --color-text-success: #86efac;
+    --color-background-success: #14532d;
+
+    --color-text-warning: #fcd34d;
+    --color-background-warning: #78350f;
+
+    --color-text-danger: #fca5a5;
+    --color-background-danger: #7f1d1d;
+  }
+}
