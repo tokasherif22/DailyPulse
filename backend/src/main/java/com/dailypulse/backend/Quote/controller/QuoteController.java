@@ -1,17 +1,21 @@
 package com.dailypulse.backend.Quote.controller;
 
 
+import com.dailypulse.backend.AI.AiResponse;
+import com.dailypulse.backend.AI.AiService;
 import com.dailypulse.backend.Quote.dto.QuoteRequest;
 import com.dailypulse.backend.Quote.dto.QuoteResponse;
 import com.dailypulse.backend.Quote.service.QuoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/quote")
@@ -20,6 +24,9 @@ public class QuoteController {
 
     @Autowired
     QuoteService quoteService;
+
+    @Autowired
+    AiService aiService;
 
     @GetMapping("/getAllQuotes")
     public List<QuoteResponse> getAllQuotes () {
@@ -48,8 +55,16 @@ public class QuoteController {
     }
 
     @PostMapping("/generateAIQuote")
-    public QuoteResponse generateAIQuote(@RequestBody QuoteRequest request){
-        return quoteService.generateAIQuote(request.getTopic());
+    public ResponseEntity<?> generateAIQuote(@RequestBody QuoteRequest request){
+        try {
+            System.out.println("topic:" + request.getTopic());
+            AiResponse response = aiService.generateQuote(request.getTopic());
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
     @PatchMapping("/{id}/publish")

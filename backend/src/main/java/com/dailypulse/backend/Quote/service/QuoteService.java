@@ -88,7 +88,7 @@ public class QuoteService {
                         .createdAt(LocalDateTime.now())
                         .topic(request.getTopic())
                         .status(request.getStatus())
-                        .isAIGenerated(false)
+                        .isAIGenerated(request.getIsAIGenerated())
                         .build();
 
         quoteRepo.save(quote);

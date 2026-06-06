@@ -1,21 +1,3 @@
-<!-- <div>
-<select>
-
-  <option
-      *ngFor="let topic of topics">
-
-      {{topic}}
-
-  </option>
-
-</select>
-<button>
-
- Generate By AI
-
-</button>
-
-</div> -->
 
 <div class="create-container">
   <h1>Create quote</h1>
@@ -27,12 +9,22 @@
       {{ topic }}
     </option>
   </select>
+  
+  <div class="quote-label-row">
+    <label>Quote</label>
+    <button
+      class="btn-ai"
+      type="button"
+      (click)="generateByAI()"
+      [disabled]="aiLoading || !quote.topic">
+      <span class="ai-icon">✦</span>
+      {{ aiLoading ? 'Generating...' : 'Generate by AI' }}
+    </button>
+  </div>
 
-  <label>Quote</label>
+
   <textarea rows="6" [(ngModel)]="quote.text" placeholder="Write your quote..."></textarea>
 
-  <!-- <label>Author</label>
-  <input [(ngModel)]="quote.createdBy" placeholder="e.g. Marcus Aurelius" /> -->
 
   <div class="alert-error" *ngIf="errorMessage">
     <span>!</span>

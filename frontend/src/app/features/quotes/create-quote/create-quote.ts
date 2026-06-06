@@ -40,6 +40,7 @@ interface QuoteForm {
   topic: string;
   text: string;
   status?: 'DRAFT' | 'PUBLISHED';
+  isAIGenerated?: boolean;
 }
 
 @Component({
@@ -71,13 +72,15 @@ export class CreateQuote {
 
     'BUSINESS'  ];
 
-     quote: QuoteForm = {
+    quote: QuoteForm = {
     topic: '',
     text: '',
-    status: 'DRAFT'
+    status: 'DRAFT',
+    isAIGenerated: false
   };
 
   loading = false;
+  aiLoading = false;
   errorMessage = '';
   successMessage = '';
 
@@ -95,7 +98,7 @@ export class CreateQuote {
     this.loading = true;
     this.errorMessage = '';
     this.quote.status = 'PUBLISHED';
-
+    console.log("quote:" + JSON.stringify(this.quote));
     this.quoteService.create(this.quote).subscribe({
       next: () => {
         this.loading = false;
@@ -118,7 +121,7 @@ export class CreateQuote {
     this.loading = true;
     this.errorMessage = '';
     this.quote.status = 'DRAFT';
-    
+
     this.quoteService.create(this.quote).subscribe({
       next: () => {
         this.loading = false;
@@ -135,6 +138,30 @@ export class CreateQuote {
   reset(): void {
     this.quote = { topic: '', text: '' };
     this.errorMessage = '';
+  }
+
+  generateByAI(): void {
+    if (!this.quote.topic) {
+      this.errorMessage = 'Please select a topic to generate a quote.';
+      return;
+    }
+
+    this.aiLoading = true;
+    this.errorMessage = '';
+    
+    this.quoteService.generateAIQuote(this.quote.topic).subscribe({
+      next: (response) => {
+        this.quote.isAIGenerated = true;
+        this.aiLoading = false;
+        console.log("generatedText:" + response.generatedText);;
+        this.quote.text = response.generatedText; 
+      },
+      error: (err) => {
+        this.aiLoading = false;
+        this.errorMessage = 'AI Failed to generate quote. Please try again.';
+        console.error(err);
+      }
+    });
   }
 }
 

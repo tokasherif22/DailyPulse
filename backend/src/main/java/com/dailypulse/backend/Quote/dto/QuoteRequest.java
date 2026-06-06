@@ -15,4 +15,5 @@ public class QuoteRequest {
 
     private Topic topic;
     private Status status;
+    private Boolean isAIGenerated;
 }

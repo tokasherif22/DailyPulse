@@ -53,4 +53,42 @@
       flex: 1;
     }
   }
+
+  .quote-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 6px;
+
+  label { margin: 0; }
+}
+
+.btn-ai {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  padding: 4px 14px;
+  border-radius: var(--border-radius-md);
+  border: 0.5px solid #AFA9EC;
+  background: #EEEDFE;
+  color: #3C3489;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  .ai-icon {
+    font-size: 14px;
+    color: #7F77DD;
+  }
+
+  &:hover:not(:disabled) {
+    background: #CECBF6;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
 }

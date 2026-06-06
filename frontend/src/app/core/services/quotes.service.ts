@@ -29,15 +29,7 @@ export class QuotesService {
   }
 
 
-  generateAIQuote(
-    quote: any
-  ) {
-
-    return this.http.post(
-      `${this.api}/generateAIQuote`,
-      quote
-    );
-  }
+  
 
   create(
     quote: any
@@ -57,4 +49,22 @@ export class QuotesService {
      {}
     );
 }
+
+// send topic and recieve generated quote from ai
+generateAIQuote(topic: string ): Observable<{ generatedText: string  }> {
+  return this.http.post<{ generatedText: string  }>(
+    `${this.api}/generateAIQuote`,
+    { topic }
+  );
+}
+
+// generateAIQuote(
+//     quote: any
+//   ) {
+
+//     return this.http.post(
+//       `${this.api}/generateAIQuote`,
+//       quote
+//     );
+//   }
 }
