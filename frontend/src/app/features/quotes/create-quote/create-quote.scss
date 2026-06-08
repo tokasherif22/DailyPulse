@@ -91,4 +91,36 @@
     cursor: not-allowed;
   }
 }
+
+.try-again-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #EEEDFE;
+  border: 0.5px solid #AFA9EC;
+  border-radius: var(--border-radius-md);
+}
+
+.try-again-hint {
+  font-size: 13px;
+  color: #534AB7;
+}
+
+.btn-try-again {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  padding: 4px 14px;
+  background: white;
+  color: #3C3489;
+  border: 0.5px solid #AFA9EC;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+
+  &:hover:not(:disabled) { background: #CECBF6; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
 }

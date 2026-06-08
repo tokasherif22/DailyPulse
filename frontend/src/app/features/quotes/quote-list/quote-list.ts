@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Quote } from '../../../core/models/quote';
 import { QuotesService } from '../../../core/services/quotes.service';
 import { CommonModule } from '@angular/common';
@@ -16,12 +16,14 @@ export class QuoteList
   quotes: Quote[] = [];
 
   constructor(
-    private quotesService: QuotesService
+    private quotesService: QuotesService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     console.log('AllQuotes loaded');
      this.loadQuotes();
+
   }
 
   loadQuotes() {
@@ -35,8 +37,8 @@ export class QuoteList
         next: data => {
 
           console.log(data);
-
           this.quotes = data;
+          this.cdr.detectChanges();
         },
 
         error: err => {

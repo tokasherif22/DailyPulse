@@ -26,14 +26,6 @@ public class AiService {
 
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey;
 
-//        Map<String, Object> requestBody = Map.of(
-//                "contents", List.of(
-//                        Map.of("parts", List.of(
-//                                Map.of("text", buildPrompt(topic.toString()))
-//                        ))
-//                )
-//        );
-
         // build request using typed classes — not Map.of()
         GeminiRequest requestBody = new GeminiRequest(
                 List.of(new GeminiRequest.Content(
@@ -97,5 +89,52 @@ public class AiService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse Gemini response");
         }
+    }
+
+    public AiResponse regenerateQuote(Topic topic , String oldQuoteText ) {
+//        to test if model can generateContent use url:https://generativelanguage.googleapis.com/v1beta/models?key=YOUR_KEY
+
+        String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey;
+
+        // build request using typed classes — not Map.of()
+        GeminiRequest requestBody = new GeminiRequest(
+                List.of(new GeminiRequest.Content(
+                        List.of(new GeminiRequest.Part(buildRegeneratePrompt(topic.toString(),oldQuoteText)))
+                ))
+        );
+
+        System.out.println("requestBody: " + requestBody);
+
+        String raw = webClient.post()
+                .uri(url)
+                .header("Content-Type", "application/json")
+                .bodyValue(requestBody)
+                .retrieve()
+                .onStatus(status -> status.value() == 429, response ->
+                        Mono.error(new RuntimeException("AI service is busy, please try again in a moment."))
+                )
+                .onStatus(status -> status.is4xxClientError(), response ->
+                        response.bodyToMono(String.class).flatMap(errorBody -> {
+                            System.out.println("GEMINI ERROR: " + errorBody);
+                            return Mono.error(new RuntimeException(errorBody));
+                        })
+                )
+                .bodyToMono(String.class)
+                .block();
+        System.out.println("raw: "+ raw);
+
+        // parse the JSON response from the LLM
+        return parseResponse(raw);
+    }
+
+    private String buildRegeneratePrompt(String topic, String oldQuoteText) {
+        return String.format(
+                "The user was not satisfied with this quote about '%s': \"%s\". " +
+                        "Generate a DIFFERENT, more powerful and deeply inspiring quote about '%s'. " +
+                        "It must be completely different in wording, author, and perspective. " +
+                        "Return ONLY a JSON object, no extra text, no markdown, no backticks: " +
+                        "{\"generatedText\": \"your quote here\", \"author\": \"author name here\"}",
+                topic, oldQuoteText, topic
+        );
     }
 }

@@ -25,6 +25,19 @@
 
   <textarea rows="6" [(ngModel)]="quote.text" placeholder="Write your quote..."></textarea>
 
+  <!-- Try again — only visible after AI generates a quote -->
+  <div class="try-again-row" *ngIf="quote.isAIGenerated && quote.text">
+    <span class="try-again-hint">If the quote didn't meet your expectations:</span>
+    <button
+      class="btn-try-again"
+      type="button"
+      (click)="regenerateByAI()"
+      [disabled]="aiLoading || !quote.topic">
+      <span>↻</span>
+      {{ aiLoading ? 'Generating...' : 'Try again' }}
+    </button>
+  </div>
+
 
   <div class="alert-error" *ngIf="errorMessage">
     <span>!</span>

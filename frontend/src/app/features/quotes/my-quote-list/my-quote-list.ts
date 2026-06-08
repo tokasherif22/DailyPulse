@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Quote } from '../../../core/models/quote';
 import { QuotesService } from '../../../core/services/quotes.service';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,8 @@ export class MyQuoteList implements OnInit {
   publishingId: number | null = null;  // ← tracks which quote is being published
 
   constructor(
-    private quotesService: QuotesService
+    private quotesService: QuotesService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -27,11 +28,13 @@ export class MyQuoteList implements OnInit {
         {
           next: (data) => {
             this.quotes = data;
-            this.loading = false;
+            this.loading = false; 
+            this.cdr.detectChanges(); // ← ensure UI updates after async data load
           },
           error: () => {
             this.errorMessage = 'Failed to load quotes.';
             this.loading = false;
+            this.cdr.detectChanges(); // ← ensure UI updates after async data load
           }
         }
 

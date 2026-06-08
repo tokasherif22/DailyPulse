@@ -67,6 +67,19 @@ public class QuoteController {
         }
     }
 
+    @PostMapping("/regenerateAIQuote")
+    public ResponseEntity<?> regenerateAIQuote(@RequestBody QuoteRequest request){
+        try {
+            System.out.println("topic:" + request.getTopic());
+            AiResponse response = aiService.regenerateQuote(request.getTopic(),request.getText());
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @PatchMapping("/{id}/publish")
     public ResponseEntity<QuoteResponse> publish(@PathVariable Long id, Authentication auth) {
         QuoteResponse response = quoteService.publish(id, auth.getName());

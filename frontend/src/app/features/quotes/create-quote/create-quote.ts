@@ -30,7 +30,7 @@
 //     'BUSINESS'  ];
 // }
 
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -86,7 +86,8 @@ export class CreateQuote {
 
   constructor(
     private quoteService: QuotesService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   publish(): void {
@@ -136,7 +137,12 @@ export class CreateQuote {
   }
 
   reset(): void {
-    this.quote = { topic: '', text: '' };
+    this.quote = {
+       topic: '',
+        text: '' ,
+        status: 'DRAFT',
+        isAIGenerated: false 
+      };
     this.errorMessage = '';
   }
 
@@ -155,6 +161,32 @@ export class CreateQuote {
         this.aiLoading = false;
         console.log("generatedText:" + response.generatedText);;
         this.quote.text = response.generatedText; 
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.aiLoading = false;
+        this.errorMessage = 'AI Failed to generate quote. Please try again.';
+        console.error(err);
+      }
+    });
+  }
+
+  regenerateByAI(): void {
+    if (!this.quote.topic) {
+      this.errorMessage = 'Please select a topic to generate a quote.';
+      return;
+    }
+
+    this.aiLoading = true;
+    this.errorMessage = '';
+    
+    this.quoteService.regenerateAIQuote(this.quote.topic, this.quote.text).subscribe({
+      next: (response) => {
+        this.quote.isAIGenerated = true;
+        this.aiLoading = false;
+        console.log("generatedText:" + response.generatedText);;
+        this.quote.text = response.generatedText; 
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.aiLoading = false;

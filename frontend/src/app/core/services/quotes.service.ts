@@ -58,6 +58,14 @@ generateAIQuote(topic: string ): Observable<{ generatedText: string  }> {
   );
 }
 
+// send topic and oldQuoteText, recieve new generated quote from ai
+regenerateAIQuote(topic: string , oldQuoteText: string ): Observable<{ generatedText: string  }> {
+  return this.http.post<{ generatedText: string  }>(
+    `${this.api}/regenerateAIQuote`,
+    { topic, oldQuoteText }
+  );
+}
+
 // generateAIQuote(
 //     quote: any
 //   ) {
