@@ -42,8 +42,8 @@ export class QuoteList
         },
 
         error: err => {
-
           console.error(err);
+          this.cdr.detectChanges();
         }
       });
 }

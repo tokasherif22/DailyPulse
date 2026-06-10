@@ -1,4 +1,4 @@
-
+<!-- 
 <form
   [formGroup]="form"
   (ngSubmit)="submit()">
@@ -35,4 +35,66 @@
   </button>
 
 </form>
+ -->
 
+ <div class="login-page">
+
+  <div class="login-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="ti ti-bolt" aria-hidden="true"></i>
+      </div>
+      <span class="brand-name">DailyPulse</span>
+    </div>
+    <p class="brand-tagline">Your AI-powered daily ritual for inspiration</p>
+  </div>
+
+  <div class="login-card">
+
+    <div class="card-header">
+      <h1>Welcome back</h1>
+      <p>Sign in to your account to continue</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com" />
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="••••••••" />
+      </div>
+
+      <div class="alert-error" *ngIf="errorMessage">
+        <i class="ti ti-alert-circle" aria-hidden="true"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+    </form>
+
+    <div class="login-footer">
+      <span>New to DailyPulse?</span>
+      <a routerLink="/register">Create an account</a>
+    </div>
+
+  </div>
+
+  <p class="copyright">© 2025 DailyPulse · Your daily inspiration</p>
+
+</div>

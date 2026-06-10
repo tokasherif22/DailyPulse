@@ -63,6 +63,7 @@ export class MyQuoteList implements OnInit {
       error: () => {
         this.errorMessage = 'Failed to publish quote. Please try again.';
         this.publishingId = null;
+        this.cdr.detectChanges(); 
       }
     });
   }

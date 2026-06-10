@@ -1,14 +1,14 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Auth } from '../../../core/services/auth';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-login',
   imports: [CommonModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -21,6 +21,7 @@ export class Login {
   constructor( 
     private fb: FormBuilder,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     // private authService: Auth,
     private userService: UserService,
     @Inject(Auth) private authService: Auth) {
@@ -68,6 +69,7 @@ export class Login {
              console.error('An error occurred during login:', error);
           }
           console.error('Invalid email or password');
+          this.cdr.detectChanges();
         }
       
   })

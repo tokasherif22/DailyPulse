@@ -19,15 +19,13 @@ export class Navbar {
   ) {}
   
   ngOnInit() {
-  console.log("user:" + this.userService.getUser()?.fullName);
+    console.log("user:" + this.userService.getUser()?.fullName);
 }
 
   logout() {
 
     this.authService.logout();
-
     this.userService.clearUser();
-
     this.router.navigate(['/login']);
   }
 }

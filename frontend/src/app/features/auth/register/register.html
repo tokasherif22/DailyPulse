@@ -1,4 +1,4 @@
-
+<!-- 
 <form
   [formGroup]="form"
   (ngSubmit)="submit()">
@@ -34,4 +34,110 @@
     Register
   </button>
 
-</form>
+</form> -->
+
+<div class="login-page">
+
+  <div class="login-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="ti ti-bolt" aria-hidden="true"></i>
+      </div>
+      <span class="brand-name">DailyPulse</span>
+    </div>
+    <p class="brand-tagline">Your AI-powered daily ritual for inspiration</p>
+  </div>
+
+  <div class="login-card">
+
+    <div class="card-header">
+      <h1>Create an account</h1>
+      <p>Start your daily inspiration journey</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="field-row">
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" formControlName="fullName" placeholder="John Doe" />
+        </div>
+
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="••••••••" />
+      </div>
+
+      <div class="field">
+        <label>Confirm password</label>
+        <input type="password" formControlName="confirmPassword" placeholder="••••••••" />
+        <span class="field-error" *ngIf="form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.dirty">
+          Passwords do not match.
+        </span>
+      </div>
+
+      <!-- Role selector -->
+      <div class="field">
+        <label>Register as</label>
+        <div class="role-selector">
+
+          <label class="role-card" [class.role-card--active]="form.get('role')?.value === 'USER'"
+            (click)="setRole('USER')">
+            <i class="ti ti-user" aria-hidden="true"></i>
+            <div>
+              <span class="role-title">User</span>
+              </div>
+              <div>
+                <span class="role-desc">Access daily quotes and community features</span>
+              </div>
+          </label>
+
+          <label class="role-card" [class.role-card--active]="form.get('role')?.value === 'ADMIN'"
+            (click)="setRole('ADMIN')">
+            <i class="ti ti-shield" aria-hidden="true"></i>
+            <div>
+              <span class="role-title">Admin</span>
+              </div>
+              <div>
+                <span class="role-desc">Manage users and platform content</span>
+              </div>
+          </label>
+
+        </div>
+      </div>
+
+
+
+       <div class="alert-error" *ngIf="errorMessage">
+        <i class="ti ti-alert-circle" aria-hidden="true"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- <div class="alert-success" *ngIf="successMessage">
+        <i class="ti ti-circle-check" aria-hidden="true"></i>
+        <span>{{ successMessage }}</span>
+      </div>  -->
+
+      <button type="submit" class="btn-primary" [disabled]="loading || form.invalid">
+        {{ loading ? 'Creating account...' : 'Create account' }}
+      </button>
+
+    </form>
+
+    <div class="login-footer">
+      <span>Already have an account?</span>
+      <a routerLink="/login">Sign in</a>
+    </div>
+
+  </div>
+
+  <p class="copyright">© 2025 DailyPulse · Your daily inspiration</p>
+
+</div>

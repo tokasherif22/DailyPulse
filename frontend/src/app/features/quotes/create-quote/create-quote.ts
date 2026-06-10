@@ -109,6 +109,7 @@ export class CreateQuote {
         this.loading = false;
         this.errorMessage = 'Failed to save quote. Please try again.';
         console.error(err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -132,6 +133,7 @@ export class CreateQuote {
         this.loading = false;
         this.errorMessage = 'Failed to save quote. Please try again.';
         console.error(err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -167,6 +169,7 @@ export class CreateQuote {
         this.aiLoading = false;
         this.errorMessage = 'AI Failed to generate quote. Please try again.';
         console.error(err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -192,6 +195,7 @@ export class CreateQuote {
         this.aiLoading = false;
         this.errorMessage = 'AI Failed to generate quote. Please try again.';
         console.error(err);
+        this.cdr.detectChanges();
       }
     });
   }

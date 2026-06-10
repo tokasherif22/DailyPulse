@@ -1,6 +1,8 @@
 package com.dailypulse.backend.auth.service;
 
 
+import com.dailypulse.backend.auth.Exception.GlobalExceptionHandler;
+import com.dailypulse.backend.auth.Exception.UserAlreadyExistsException;
 import com.dailypulse.backend.auth.model.AuthResponse;
 import com.dailypulse.backend.auth.model.LoginRequest;
 import com.dailypulse.backend.auth.model.RegisterRequest;
@@ -21,6 +23,11 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
 
+        // check if email already exists — throws 409 Conflict
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new UserAlreadyExistsException("An account with this email already exists.");
+        }
+
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
@@ -29,6 +36,7 @@ public class AuthService {
                                 request.getPassword()
                         )
                 )
+                .role(request.getRole())
                 .build();
 
 

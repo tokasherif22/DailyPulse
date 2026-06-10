@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs/internal/Observable';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+
+  private api =
+    'http://localhost:8080/api';
+  
+    constructor(private http: HttpClient) {}
+
   private userSubject =
     new BehaviorSubject<User | null>(null);
 
@@ -23,4 +31,9 @@ export class UserService {
   clearUser() {
     this.userSubject.next(null);
   }
+
+  
+  fetchCurrentUser(): Observable<User> {
+  return this.http.get<User>(`${this.api}/user/me`);  
+}
 }
