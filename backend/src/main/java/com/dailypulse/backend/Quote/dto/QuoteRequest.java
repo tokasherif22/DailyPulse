@@ -6,6 +6,8 @@ import com.dailypulse.backend.Quote.model.Topic;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class QuoteRequest {
@@ -16,4 +18,5 @@ public class QuoteRequest {
     private Topic topic;
     private Status status;
     private Boolean isAIGenerated;
+    private LocalDateTime scheduledAt;
 }

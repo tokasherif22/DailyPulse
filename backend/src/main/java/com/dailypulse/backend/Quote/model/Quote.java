@@ -37,7 +37,7 @@ public class Quote {
     @Enumerated(EnumType.STRING)
     private Topic topic ;
 
-    @UpdateTimestamp // saved upon update
+//    @UpdateTimestamp // saved upon update
     private LocalDateTime scheduledAt;
 
     private Boolean isAIGenerated;

@@ -32,12 +32,12 @@ export class QuotesService {
   
 
   create(
-    quote: any
+    payload: any
   ) {
 
     return this.http.post(
       `${this.api}/createQuote`,
-      quote
+      payload
     );
   }
 

@@ -47,6 +47,7 @@ public class QuoteController {
     @PostMapping("/createQuote")
     public QuoteResponse createQuote (@RequestBody QuoteRequest request,
                              Authentication auth){
+        System.out.println("request" + request.getScheduledAt());
         return quoteService.createQuote (
                 request,
                 auth.getName()

@@ -22,6 +22,15 @@
     </button>
   </div>
 
+  <!-- scheduled time strip — appears after schedule is confirmed -->
+  <div class="schedule-info" *ngIf="scheduledAt">
+    <i class="ti ti-clock" aria-hidden="true"></i>
+    <span>Scheduled for {{ scheduledAt | date:'MMM d, y · h:mm a' }}</span>
+    <button class="btn-clear-schedule" (click)="clearSchedule()">
+      <i class="ti ti-x" aria-hidden="true"></i>
+    </button>
+  </div>
+
 
   <textarea rows="6" [(ngModel)]="quote.text" placeholder="Write your quote..."></textarea>
 
@@ -48,9 +57,62 @@
     <button (click)="publish()" [disabled]="loading">
       {{ loading ? 'Saving...' : 'Publish' }}
     </button>
+    <button class="btn-schedule-trigger" (click)="openSchedulePopup()" [disabled]="loading">
+      <i class="ti ti-calendar" aria-hidden="true"></i>
+      {{ scheduledAt ? 'Reschedule' : 'Schedule' }}
+    </button>
     <button (click)="saveDraft()" [disabled]="loading">
       {{ loading ? 'Saving...' : 'Save Draft' }}
     </button>
     <button (click)="reset()">Clear</button>
+  </div>
+</div>
+
+
+<!-- popup overlay -->
+<div class="popup-overlay" *ngIf="showSchedulePopup" (click)="closeOnOverlay($event)">
+  <div class="popup-card">
+
+    <div class="popup-header">
+      <div>
+        <p class="popup-title">Schedule publishing</p>
+        <p class="popup-subtitle">Choose when this quote goes live</p>
+      </div>
+      <button class="btn-icon" (click)="closeSchedulePopup()">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="field">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="scheduleDate" [min]="todayDate" />
+    </div>
+
+    <div class="field">
+      <label>Time</label>
+      <input type="time" [(ngModel)]="scheduleTime" />
+    </div>
+
+    <!-- preview strip — only when both are filled -->
+    <div class="schedule-preview" *ngIf="scheduleDate && scheduleTime">
+      <i class="ti ti-info-circle" aria-hidden="true"></i>
+      <span>Quote will be published on {{ getSchedulePreview() }}</span>
+    </div>
+
+    <div class="alert-error" *ngIf="scheduleError">
+      <i class="ti ti-alert-circle" aria-hidden="true"></i>
+      <span>{{ scheduleError }}</span>
+    </div>
+
+    <div class="popup-actions">
+      <button (click)="closeSchedulePopup()">Cancel</button>
+      <button class="btn-confirm-schedule"
+        (click)="confirmSchedule()"
+        [disabled]="!scheduleDate || !scheduleTime">
+        <i class="ti ti-calendar-check" aria-hidden="true"></i>
+        Schedule
+      </button>
+    </div>
+
   </div>
 </div>

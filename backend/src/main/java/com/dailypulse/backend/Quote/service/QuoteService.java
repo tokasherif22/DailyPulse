@@ -6,8 +6,10 @@ import com.dailypulse.backend.Quote.model.Quote;
 import com.dailypulse.backend.Quote.model.Status;
 import com.dailypulse.backend.Quote.model.Topic;
 import com.dailypulse.backend.Quote.repo.QuoteRepo;
+import com.dailypulse.backend.schedular.QuoteSchedulerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,9 @@ public class QuoteService {
 
     @Autowired
     QuoteRepo quoteRepo;
+
+    @Autowired
+    QuoteSchedulerService quoteSchedulerService;
 
     @Autowired
     private final ModelMapper modelMapper;
@@ -89,9 +94,31 @@ public class QuoteService {
                         .topic(request.getTopic())
                         .status(request.getStatus())
                         .isAIGenerated(request.getIsAIGenerated())
+                        .scheduledAt(request.getScheduledAt())
                         .build();
-
+//set other time for testing
+//        request.setScheduledAt(
+//                LocalDateTime.of(
+//                        2026,
+//                        6,
+//                        10,
+//                        11,
+//                        40
+//                )
+//        );
         quoteRepo.save(quote);
+
+        // if scheduled — register the Quartz job
+        if (request.getScheduledAt() != null) {
+            try {
+                quoteSchedulerService.scheduleQuotePublishing(
+                        quote.getId(),
+                        request.getScheduledAt()
+                );
+            } catch (SchedulerException e) {
+                throw new RuntimeException("Failed to schedule quote: " + e.getMessage());
+            }
+        }
 
         return new QuoteResponse(
                 quote.getId(),
