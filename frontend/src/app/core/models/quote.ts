@@ -12,7 +12,7 @@ export interface Quote {
 
   scheduledAt: string;
 
-  status: 'DRAFT' | 'PUBLISHED';
+  status: 'DRAFT' | 'PUBLISHED' | 'SCHEDULED';
 
   topic : [
 
