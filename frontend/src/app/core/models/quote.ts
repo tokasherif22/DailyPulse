@@ -36,4 +36,6 @@ export interface Quote {
   //   'BUSINESS'
 
 ];
+  sparkCount: number;
+  sparked: boolean;
 }

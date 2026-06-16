@@ -28,11 +28,11 @@ public class QuoteController {
     @Autowired
     AiService aiService;
 
-    @GetMapping("/getAllQuotes")
-    public List<QuoteResponse> getAllQuotes () {
-     List<QuoteResponse> quoteResponses = quoteService.getAll();
-     return quoteResponses;
-    }
+//    @GetMapping("/getAllQuotes")
+//    public List<QuoteResponse> getAllQuotes () {
+//     List<QuoteResponse> quoteResponses = quoteService.getAll();
+//     return quoteResponses;
+//    }
 
     @GetMapping("/getAllQuotesToday")
     public List<QuoteResponse> getAllQuotesToday () {

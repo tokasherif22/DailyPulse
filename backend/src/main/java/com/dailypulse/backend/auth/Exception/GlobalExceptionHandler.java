@@ -23,4 +23,12 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(500, "Something went wrong. Please try again."));
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleAll(Exception ex) {
+        ex.printStackTrace();   // prints full stack trace to console
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(500, ex.getMessage()));
+    }
+
 }

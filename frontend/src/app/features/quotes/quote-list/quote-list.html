@@ -1,21 +1,4 @@
-<!-- <div class="quotes-container">
-
-  <div
-    class="quote-card"
-    *ngFor="let quote of quotes">
-
-    <p>
-      "{{ quote.text }}"
-    </p>
-
-    <span>
-      — {{ quote.createdBy }}
-    </span>
-
-  </div>
-
-</div> -->
-<div class="section-header">
+<!-- <div class="section-header">
       <span class="section-title">All Quotes</span>
       <span class="badge badge-published">{{ quotes.length }}</span>
 </div>
@@ -24,4 +7,70 @@
         <p class="quote-text">"{{ quote.text }}"</p>
         <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
       </div>
+</div> -->
+
+
+<div class="feed-container">
+
+  <!-- Hall of Fame -->
+  <div class="section" *ngIf="hallOfFame.length > 0">
+    <div class="section-header">
+      <span class="section-title">⚡ Hall of Fame</span>
+      <span class="section-sub">Most sparked today</span>
+    </div>
+    <div class="quote-card hof-card" *ngFor="let quote of hallOfFame">
+      <div> 
+        <p class="quote-text">"{{ quote.text }}"</p>
+        <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
+      </div>
+      <div class="quote-meta">
+        <!-- <span class="badge-topic">{{ quote.topic }}</span> -->
+        <app-spark-button 
+          [quoteId]="quote.id"
+          [initialCount]="quote.sparkCount"
+          [initialSparked]="quote.sparked"
+          [disabled]="true">
+        </app-spark-button>
+      </div>
+      <!-- <p class="quote-text">"{{ quote.text }}"</p> -->
+    </div>
+  </div>
+
+  <!-- Global Feed -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Global Feed</span>
+      <span class="section-sub">Latest from the community</span>
+    </div>
+
+    <div *ngIf="loading && feed.length === 0" class="loading">
+      Loading quotes...
+    </div>
+
+    <div class="quote-card" *ngFor="let quote of feed">
+    <div> 
+      <p class="quote-text">"{{ quote.text }}"</p>
+      <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
+    </div>
+      <!-- <div class="quote-meta">
+        <span class="badge-topic">{{ quote.topic }}</span>
+        <span class="quote-date">{{ quote.createdAt | date:'MMM d' }}</span>
+      </div> -->
+      <!-- <p class="quote-text">"{{ quote.text }}"</p> -->
+      <div class="quote-footer">
+        <app-spark-button
+          [quoteId]="quote.id"
+          [initialCount]="quote.sparkCount"
+          [initialSparked]="quote.sparked">
+        </app-spark-button>
+      </div>
+    </div>
+
+    <button class="btn-load-more"
+      *ngIf="hasMore && !loading"
+      (click)="loadMore()">
+      Load more
+    </button>
+
+  </div>
 </div>

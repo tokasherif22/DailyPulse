@@ -7,6 +7,9 @@ import com.dailypulse.backend.Quote.model.Status;
 import com.dailypulse.backend.Quote.model.Topic;
 import com.dailypulse.backend.Quote.repo.QuoteRepo;
 import com.dailypulse.backend.schedular.QuoteSchedulerService;
+import com.dailypulse.backend.spark.model.Spark;
+import com.dailypulse.backend.spark.repo.SparkRepo;
+import com.dailypulse.backend.spark.service.SparkService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.quartz.SchedulerException;
@@ -33,22 +36,27 @@ public class QuoteService {
     @Autowired
     private final ModelMapper modelMapper;
 
-    public List<QuoteResponse> getAll() {
+    @Autowired
+    SparkRepo sparkRepo;
 
-        return quoteRepo
-                .findAll()
-                .stream()
-                .map(q -> new QuoteResponse(
-                        q.getId(),
-                        q.getText(),
-                        q.getCreatedBy(),
-                        q.getCreatedAt(),
-                        q.getTopic(),
-                        q.getStatus(),
-                        q.getIsAIGenerated()
-                ))
-                .toList();
-    }
+//    public List<QuoteResponse> getAll() {
+//
+//        return quoteRepo
+//                .findAll()
+//                .stream()
+//                .map(q -> new QuoteResponse(
+//                        q.getId(),
+//                        q.getText(),
+//                        q.getCreatedBy(),
+//                        q.getCreatedAt(),
+//                        q.getTopic(),
+//                        q.getStatus(),
+//                        q.getIsAIGenerated(),
+//                        0,
+//                        false
+//                ))
+//                .toList();
+//    }
 
     public List<QuoteResponse> getAllMyQuotes(String createdBy) {
 
@@ -120,6 +128,8 @@ public class QuoteService {
             }
         }
 
+//        return mapToResponse()
+
         return new QuoteResponse(
                 quote.getId(),
                 quote.getText(),
@@ -127,8 +137,19 @@ public class QuoteService {
                 quote.getCreatedAt(),
                 quote.getTopic(),
                 quote.getStatus(),
-                quote.getIsAIGenerated()
+                quote.getIsAIGenerated(),
+                0,
+                false
         );
+    }
+
+    public QuoteResponse mapToResponse(Quote quote, Long UserId) {
+        QuoteResponse response = modelMapper.map(quote, QuoteResponse.class);
+        response.setSparkCount(sparkRepo.countByQuoteId(quote.getId()));
+        response.setSparked(sparkRepo.existsByQuoteIdAndUserId(
+                quote.getId(), UserId
+        ));
+        return response;
     }
 
     public QuoteResponse publish (Long id , String email){

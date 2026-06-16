@@ -1,11 +1,14 @@
 package com.dailypulse.backend.Quote.model;
 
+import com.dailypulse.backend.spark.model.Spark;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -45,5 +48,8 @@ public class Quote {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    // ← add this relationship
+    @OneToMany(mappedBy = "quote", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Spark> sparks = new ArrayList<>();
 
 }

@@ -16,11 +16,11 @@ export class QuotesService {
     private http: HttpClient
   ) {}
 
-  getAll() {
-    return this.http.get<Quote[]>(
-      `${this.api}/getAllQuotes`,
-    );
-  }
+  // getAll() {
+  //   return this.http.get<Quote[]>(
+  //     `${this.api}/getAllQuotes`,
+  //   );
+  // }
 
   getAllMyQuotes() {
     return this.http.get<Quote[]>(
