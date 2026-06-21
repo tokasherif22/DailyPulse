@@ -23,6 +23,26 @@ export class QuoteList
   page = 0;
   hasMore = true;
 
+  filteredQuotes: Quote[] = [];
+  filteredHallOfFame: Quote[] = [];
+
+  publishingId: number | null = null;
+  searchTerm = '';
+  selectedTopic = '';
+  topics: string[] = [
+    'MOTIVATION',
+    'SUCCESS',
+    'PRODUCTIVITY',
+    'LEADERSHIP',
+    'FITNESS',
+    'MINDSET',
+    'DISCIPLINE',
+    'HAPPINESS',
+    'GRATITUDE',
+    'BUSINESS'
+  ];
+
+
   constructor(
     // private quotesService: QuotesService,
     private communityService: CommunityService,
@@ -65,6 +85,7 @@ export class QuoteList
         this.feed = [...this.feed, ...data];  // append for pagination
         this.hasMore = data.length === 20;
         this.loading = false;
+        this.applyFilters(); 
         this.cdr.detectChanges();
       },
       error: () => {
@@ -83,10 +104,75 @@ export class QuoteList
     this.communityService.getHallOfFame().subscribe({
       next: (data) => {
         this.hallOfFame = data;
+        this.applyFilters();
         this.cdr.detectChanges();
       }
     });
   }
+
+
+  // ---------search---------------
+  onSearch(): void {
+    this.applyFilters();
+  }
+
+  filterByTopic(topic: string): void {
+    this.selectedTopic = topic;
+    this.applyFilters();
+  }
+
+  // private getTopicText(topic: string | string[] | undefined): string {
+  //   if (!topic) {
+  //     return '';
+  //   }
+  //   return Array.isArray(topic) ? topic.join(' ') : topic;
+  // }
+
+  applyFilters(): void {
+     let result = [...this.feed];
+     let resutltHallOfFame = [...this.hallOfFame];
+   
+
+    // filter by topic chip
+    if (this.selectedTopic) {
+      result = result.filter(q =>
+        q.topic?.toString().toUpperCase() === this.selectedTopic.toUpperCase()
+      );
+      resutltHallOfFame = resutltHallOfFame.filter(q =>
+        q.topic?.toString().toUpperCase() === this.selectedTopic.toUpperCase()
+      );
+    }
+
+    // filter by search term — searches text and topic
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase().trim();
+      result = result.filter(q =>
+        q.text?.toLowerCase().includes(term) ||
+        q.topic?.toString().toLowerCase().includes(term)
+      );
+      resutltHallOfFame = resutltHallOfFame.filter(q =>
+        q.topic?.toString().toLowerCase().includes(term)
+      );
+      console.log(' term:', this.searchTerm);
+    }
+
+    this.filteredQuotes = result;
+    this.filteredHallOfFame = resutltHallOfFame;
+    // console.log('Filtered Quotes:', this.filteredQuotes);
+    console.log('Filtered Hall of Fame:', this.filteredHallOfFame);
+    this.cdr.detectChanges();
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.selectedTopic = '';
+    this.filteredQuotes = [...this.feed];
+    this.filteredHallOfFame = [...this.hallOfFame];
+    this.cdr.detectChanges();
+  }
+
+
+
 
 
 }
