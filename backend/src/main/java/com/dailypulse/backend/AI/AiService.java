@@ -137,4 +137,38 @@ public class AiService {
                 topic, oldQuoteText, topic
         );
     }
+
+//---------------facebook captioning-----------------------------------
+    public String generateFacebookCaption(String quoteText, String topic) {
+        String prompt = String.format(
+                "Write a short, engaging Facebook caption for this quote about %s: \"%s\". " +
+                        "Include 3-5 relevant hashtags. Return ONLY the caption text, nothing else.",
+                topic, quoteText
+        );
+
+        GeminiRequest request = new GeminiRequest(
+                List.of(new GeminiRequest.Content(
+                        List.of(new GeminiRequest.Part(prompt))
+                ))
+        );
+
+        String raw = webClient.post()
+                .uri("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey)
+                .header("Content-Type", "application/json")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        // extract text from Gemini response
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(raw);
+            return root.path("candidates").get(0)
+                    .path("content").path("parts").get(0)
+                    .path("text").asText();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate caption");
+        }
+    }
 }

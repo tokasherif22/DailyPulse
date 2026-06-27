@@ -1,0 +1,40 @@
+<div class="settings-card">
+
+  <div class="alert-success" *ngIf="successMessage">
+    <i class="ti ti-circle-check" aria-hidden="true"></i>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <div class="settings-row">
+    <div>
+      <p class="settings-label">Facebook</p>
+      <p class="settings-desc">Auto-publish quotes to your Facebook profile</p>
+    </div>
+
+    <!-- loading state -->
+    <span *ngIf="loading" class="status-loading">Checking...</span>
+
+    <!-- connected state -->
+    <div *ngIf="!loading" class="fb-status">
+      <span class="status-badge" *ngIf="facebookConnected">
+        <i class="ti ti-circle-check" aria-hidden="true"></i>
+        Connected
+      </span>
+      <button
+        *ngIf="!facebookConnected"
+        class="btn-facebook"
+        (click)="connectFacebook()">
+        <i class="ti ti-brand-facebook" aria-hidden="true"></i>
+        Connect Facebook
+      </button>
+      <button
+        *ngIf="facebookConnected"
+        class="btn-danger"
+        (click)="disconnectFacebook()">
+        <i class="ti ti-plug-x" aria-hidden="true"></i>
+        Disconnect
+      </button>
+    </div>
+  </div>
+
+</div>

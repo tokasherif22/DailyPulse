@@ -1,0 +1,44 @@
+<div class="fb-editor">
+
+  <h2>Share to Facebook</h2>
+
+  <!-- quote text (editable) -->
+  <div class="field">
+    <label>Quote text</label>
+    <textarea rows="4" [(ngModel)]="postText"></textarea>
+  </div>
+
+  <!-- AI caption -->
+  <div class="field">
+    <div class="field-label-row">
+      <label>Caption</label>
+      <button class="btn-ai" (click)="generateCaption()" [disabled]="captionLoading">
+        <span>✦</span> {{ captionLoading ? 'Generating...' : 'Generate caption' }}
+      </button>
+    </div>
+    <textarea rows="3" [(ngModel)]="caption"></textarea>
+  </div>
+
+  <!-- Facebook post preview -->
+  <div class="fb-preview">
+    <div class="fb-preview-header">
+      <div class="fb-avatar"></div>
+      <div>
+        <p class="fb-name">Your Name</p>
+        <p class="fb-time">Just now · 🌍</p>
+      </div>
+    </div>
+    <p class="fb-post-text">{{ postText }}</p>
+    <p class="fb-caption">{{ caption }}</p>
+  </div>
+
+  <div class="alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+
+  <div class="actions">
+    <button (click)="publish()" [disabled]="loading || !postText">
+      {{ loading ? 'Publishing...' : 'Publish to Facebook' }}
+    </button>
+    <button (click)="cancel()">Cancel</button>
+  </div>
+</div>

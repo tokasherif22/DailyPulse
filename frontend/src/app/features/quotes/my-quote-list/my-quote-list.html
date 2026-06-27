@@ -47,6 +47,13 @@
       <div class="quote-content">
         <p class="quote-text">"{{ quote.text }}"</p>
         <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
+        <!-- in your quote card -->
+      <button class="btn-facebook"
+      *ngIf="facebookConnected"
+       (click)="openFacebookEditor(quote)">
+        <i class="ti ti-brand-facebook" aria-hidden="true"></i>
+        Share to Facebook
+      </button>
       </div>
       <span class="badge badge-published">Published</span>
     </div>
@@ -72,5 +79,74 @@
       </button>
     </div>
   </ng-container>
+</div>
 
+<!-- Facebook post editor popup -->
+<div class="popup-overlay" *ngIf="showFacebookEditor" (click)="closeOnOverlay($event)">
+  <div class="popup-card">
+
+    <div class="popup-header">
+      <div>
+        <p class="popup-title">
+          <i class="ti ti-brand-facebook" aria-hidden="true"></i>
+          Share to Facebook
+        </p>
+        <p class="popup-subtitle">Edit your post before publishing</p>
+      </div>
+      <button class="btn-icon" (click)="closeFacebookEditor()">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- editable quote text -->
+    <div class="field">
+      <label>Post text</label>
+      <textarea rows="4" [value]="fbPostText" (input)="fbPostText = $any($event.target).value"></textarea>
+    </div>
+
+    <!-- AI caption -->
+    <div class="field">
+      <div class="field-label-row">
+        <label>Caption</label>
+        <button class="btn-ai" type="button"
+          (click)="generateFbCaption()"
+          [disabled]="captionLoading">
+          <span>✦</span>
+          {{ captionLoading ? 'Generating...' : 'Generate caption' }}
+        </button>
+      </div>
+      <textarea rows="2" [value]="fbCaption"
+        (input)="fbCaption = $any($event.target).value"
+        placeholder="Add hashtags and caption..."></textarea>
+    </div>
+
+    <!-- preview -->
+    <div class="fb-preview">
+      <div class="fb-preview-header">
+        <div class="fb-avatar">
+          <i class="ti ti-user" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="fb-name">{{ userFullName}}</p>
+          <p class="fb-time">Just now · 🌍</p>
+        </div>
+      </div>
+      <p class="fb-post-text">{{ fbPostText }}</p>
+      <p class="fb-caption" *ngIf="fbCaption">{{ fbCaption }}</p>
+    </div>
+
+    <div class="alert-error" *ngIf="fbError">{{ fbError }}</div>
+    <div class="alert-success" *ngIf="fbSuccess">{{ fbSuccess }}</div>
+
+    <div class="popup-actions">
+      <button (click)="closeFacebookEditor()">Cancel</button>
+      <button class="btn-confirm-fb"
+        (click)="publishToFacebook()"
+        [disabled]="fbLoading || !fbPostText">
+        <i class="ti ti-brand-facebook" aria-hidden="true"></i>
+        {{ fbLoading ? 'Publishing...' : 'Publish' }}
+      </button>
+    </div>
+
+  </div>
 </div>

@@ -11,13 +11,14 @@ import { UserService } from '../../core/services/user.service';
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  $user = JSON.parse(localStorage.getItem('user') || '{}'); 
+
    constructor(
     public userService: UserService
   ) {}
 
   get isAdmin(): boolean {
 
-    return this.userService
-      .getUser()?.role === 'ADMIN';
+    return this.$user.role === 'ADMIN';
   }
 }

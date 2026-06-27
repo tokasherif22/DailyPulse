@@ -27,15 +27,14 @@ public class UserController {
                         .findByEmail(email)
                         .orElseThrow();
 
+        user.setFacebookConnected(user.getFacebookToken()!= null);
+
         return new UserResponse(
-
                 user.getId(),
-
                 user.getFullName(),
-
                 user.getEmail(),
-
-                user.getRole().name()
+                user.getRole().name(),
+                user.getFacebookConnected()
         );
 
     }

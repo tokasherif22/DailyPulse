@@ -9,6 +9,7 @@ import { QuoteList } from './features/quotes/quote-list/quote-list';
 import { MyQuoteList } from './features/quotes/my-quote-list/my-quote-list';
 import { CreateQuote } from './features/quotes/create-quote/create-quote';
 import { loggedinGuard } from './core/guards/loggedin-guard';
+import { Settings } from './features/dashboard/settings/settings';
 
 export const routes: Routes = [
     {
@@ -54,6 +55,10 @@ export const routes: Routes = [
     {
       path: 'create-quotes',
       component: CreateQuote
+    },
+    {
+      path: 'settings',
+      component: Settings
     }
   ]
 }
