@@ -11,14 +11,52 @@
 
 
 <div class="feed-container">
+  <!-- search box -->
+  <div class="search-box">
+    <i class="ti ti-search" aria-hidden="true"></i>
+    <input
+      #searchInput
+      type="text"
+      [value]="searchTerm"
+      (input)="searchTerm = searchInput.value; onSearch()"
+      placeholder="Search quotes by text, topic or author..." />
+    <button class="btn-clear-search"
+      *ngIf="searchTerm"
+      (click)="clearSearch()">
+      <i class="ti ti-x" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <!-- topic filter chips -->
+  <div class="filter-chips">
+    <button
+      class="chip"
+      [class.chip--active]="selectedTopic === ''"
+      (click)="filterByTopic('')">
+      All
+    </button>
+    <button
+      class="chip"
+      *ngFor="let topic of topics"
+      [class.chip--active]="selectedTopic === topic"
+      (click)="filterByTopic(topic)">
+      {{ topic }}
+    </button>
+  </div>
+
+  <!-- results count -->
+  <p class="results-count">
+    Showing {{ filteredQuotes.length }} quote{{ filteredQuotes.length !== 1 ? 's' : '' }}
+    <span *ngIf="searchTerm"> for "{{ searchTerm }}"</span>
+  </p>
 
   <!-- Hall of Fame -->
-  <div class="section" *ngIf="hallOfFame.length > 0">
+  <div class="section" *ngIf="filteredHallOfFame.length > 0">
     <div class="section-header">
       <span class="section-title">⚡ Hall of Fame</span>
       <span class="section-sub">Most sparked today</span>
     </div>
-    <div class="quote-card hof-card" *ngFor="let quote of hallOfFame">
+    <div class="quote-card hof-card" *ngFor="let quote of filteredHallOfFame">
       <div> 
         <p class="quote-text">"{{ quote.text }}"</p>
         <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
@@ -43,11 +81,11 @@
       <span class="section-sub">Latest from the community</span>
     </div>
 
-    <div *ngIf="loading && feed.length === 0" class="loading">
+    <div *ngIf="loading && filteredQuotes.length === 0" class="loading">
       Loading quotes...
     </div>
 
-    <div class="quote-card" *ngFor="let quote of feed">
+    <div class="quote-card" *ngFor="let quote of filteredQuotes">
     <div> 
       <p class="quote-text">"{{ quote.text }}"</p>
       <p class="quote-meta">{{ quote.topic }} · {{ quote.createdBy }} · {{ quote.createdAt | date:'mediumDate' }}</p>
